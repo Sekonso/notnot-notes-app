@@ -207,14 +207,11 @@ class NoteForm extends HTMLElement {
       const warning = e.target.nextElementSibling;
 
       if (e.target.value.length <= 0) {
-        warning.remove();
-        this.appendWarning(e.target, "Please fill this field");
+        if (warning) warning.remove();
+        this.appendWarning(e.target, "Please fill out this field");
       } else if (e.target.value.length >= 50) {
-        if (!warning)
-          this.appendWarning(
-            e.target,
-            "You have reach your character limit (50)"
-          );
+        if (warning) warning.remove();
+        this.appendWarning(e.target, "You have reached character limit(50)");
       } else if (warning) {
         warning.remove();
       }
@@ -225,14 +222,11 @@ class NoteForm extends HTMLElement {
       const warning = e.target.nextElementSibling;
 
       if (e.target.value.length <= 0) {
-        warning.remove();
-        this.appendWarning(e.target, "Please fill this field");
+        if (warning) warning.remove();
+        this.appendWarning(e.target, "Please fill out this field");
       } else if (e.target.value.length >= 250) {
-        if (!warning)
-          this.appendWarning(
-            e.target,
-            "You have reach your character limit (250)"
-          );
+        if (warning) warning.remove();
+        this.appendWarning(e.target, "You have reached character limit(250)");
       } else if (warning) {
         warning.remove();
       }
