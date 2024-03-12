@@ -1,13 +1,34 @@
+/* Main buttons container */
+.main-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
 /* Add note toggler */
 .form-toggler {
   background: var(--dark-blue);
   color: white;
   padding: 0.5rem 1.7rem;
-  margin-bottom: 2rem;
   border-radius: 50px;
+  transition: background 0.3s ease-in;
 }
 .form-toggler:hover {
   background: var(--pink);
+}
+
+/* Notes type selector */
+#notes-type-selector {
+  padding: 0.45rem 1rem;
+  background: var(--dark-blue);
+  color: white;
+  border-radius: 50px;
+  border: none;
+}
+
+#notes-type-selector:hover {
+  cursor: pointer;
 }
 
 /* Note form */
@@ -23,15 +44,24 @@ note-form {
   background: rgba(0, 0, 0, 0.2);
   z-index: 9999;
 }
+note-form {
+  display: none;
+}
 
 note-form form {
   display: flex;
   flex-direction: column;
-
   padding: 1.5rem;
   background: white;
   color: black;
   border-radius: 10px;
+  transform: scale(0.5);
+  opacity: 0;
+  transition: transform 0.2s ease;
+}
+note-form form.appended {
+  transform: scale(1);
+  opacity: 1;
 }
 
 .form-cancel {
@@ -65,8 +95,7 @@ note-form form {
   border-radius: 5px;
 }
 
-.note-add,
-.note-edit {
+.note-add {
   align-self: center;
   width: 50%;
   padding: 0.5rem;
@@ -74,9 +103,9 @@ note-form form {
   background: var(--dark-blue);
   color: white;
   border-radius: 50px;
+  transition: background 0.3s ease-in;
 }
-.note-add:hover,
-.note-edit:hover {
+.note-add:hover {
   background: var(--pink);
 }
 
@@ -89,8 +118,9 @@ note-form form {
 /* Note list */
 note-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(325px, 1fr));
+  grid-template-columns: repeat(3, minmax(225px, 1fr));
   gap: 2rem;
+  color: var(--dark-blue);
 }
 
 /* note-item */
@@ -102,6 +132,11 @@ note-item {
   color: white;
   padding: 1.5rem;
   border-radius: 10px;
+  opacity: 0;
+}
+note-item.appended {
+  opacity: 1;
+  animation: pop 0.5s;
 }
 note-item:nth-child(even) {
   background: var(--dark-blue);
@@ -119,8 +154,13 @@ note-item p {
   height: 5rem;
 }
 
-/* Note detail toggler */
-.note-detail-toggler {
+/* Note item buttons */
+.note-buttons-container {
+  display: flex;
+  gap: 0.7rem;
+}
+
+.note-button {
   background: var(--pink);
   color: white;
   height: 32px;
@@ -128,21 +168,142 @@ note-item p {
   padding: 0.5rem;
   border-radius: 50%;
 }
-.note-detail-toggler:hover {
+.note-button:hover {
   background: white;
   color: var(--pink);
+  transition: background 0.3s ease-in;
+  display: inline-block;
+  animation: shaky 0.5s infinite;
 }
 
-note-item:nth-child(odd) .note-detail-toggler {
+note-item:nth-child(odd) .note-button {
   background: var(--dark-blue);
+  transition: background 0.3s ease-in;
 }
-note-item:nth-child(odd) .note-detail-toggler:hover {
+note-item:nth-child(odd) .note-button:hover {
   background: white;
   color: var(--dark-blue);
 }
 
+/* Loading */
+.loading::before {
+  content: "Loading";
+  animation: loading 1s infinite steps(4);
+  display: inline-block;
+  color: var(--dark-blue);
+}
+
+/* Confirmation dialogue */
+confirm-dialogue {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+}
+
+.confirm-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  transform: scale(0.5);
+  opacity: 0;
+  transition: transform 0.2s ease;
+}
+.confirm-container.appended {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.confirm-message {
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.confirm-buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.confirm-buttons-container button {
+  width: 100%;
+  padding: 0.5rem 0;
+  border-radius: 50px;
+  background: var(--dark-blue);
+  color: white;
+  transition: background 0.3s ease-in;
+}
+.confirm-buttons-container button:hover {
+  background: var(--pink);
+}
+
+/* Loading animation */
+@keyframes loading {
+  0% {
+    content: "Loading";
+  }
+  25% {
+    content: "Loading.";
+  }
+  50% {
+    content: "Loading..";
+  }
+  75% {
+    content: "Loading...";
+  }
+}
+
+/* Shaky icon animation */
+@keyframes shaky {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  75% {
+    transform: rotate(-10deg);
+  }
+}
+
+/* Pop effect animation */
+@keyframes pop {
+  0% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 /* Phone display */
 @media (max-width: 760px) {
+  .main-buttons {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .main-buttons > * {
+    width: 100%;
+  }
+
   note-form form {
     width: 85%;
     padding: 1rem;
@@ -154,5 +315,9 @@ note-item:nth-child(odd) .note-detail-toggler:hover {
 
   note-list {
     grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+  }
+
+  .confirm-dialogue {
+    width: 90%;
   }
 }

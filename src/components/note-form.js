@@ -1,5 +1,5 @@
 class NoteForm extends HTMLElement {
-  static observedAttributes = ["mode", "identifier"];
+  static observedAttributes = ["mode"];
 
   // Data lokal form
   _noteData = {
@@ -32,6 +32,9 @@ class NoteForm extends HTMLElement {
     this.appendChild(this.generateForm());
 
     this.elementsEventHandler();
+    setTimeout(() => {
+      document.querySelector("note-form form").classList.add("appended");
+    }, 100);
   }
 
   // Membuat elemen form dan isinya
@@ -55,6 +58,7 @@ class NoteForm extends HTMLElement {
         autocomplete="off"
         minlength="0"
         maxlength="50"
+        ${this.checkDisabled()}
         required
       />
     `;
@@ -69,23 +73,21 @@ class NoteForm extends HTMLElement {
         autocomplete="off"
         minlength="0"
         maxlength="250"
+        ${this.checkDisabled()}
         required
       >${this._noteData.body}</textarea>
     `;
 
-    const noteSubmit = document.createElement("button");
-    if (this._mode === "add") {
-      noteSubmit.classList.add("note-add");
-      noteSubmit.innerText = "Add";
-    } else if (this._mode === "edit") {
-      noteSubmit.classList.add("note-edit");
-      noteSubmit.innerText = "Save";
-    }
-
     form.appendChild(formCancel);
     form.appendChild(titleFormGroup);
     form.appendChild(bodyFormGroup);
-    form.appendChild(noteSubmit);
+
+    if (this._mode === "add") {
+      const noteSubmit = document.createElement("button");
+      noteSubmit.classList.add("note-add");
+      noteSubmit.innerText = "Add";
+      form.appendChild(noteSubmit);
+    }
 
     return form;
   }
@@ -103,55 +105,25 @@ class NoteForm extends HTMLElement {
     document.querySelector("note-form").style.display = "none";
   }
 
-  // Membuat id unik
-  // @return: string
-  generateNoteId() {
-    return `notes-${+new Date()}`;
-  }
-
-  // Membuat tanggal
-  // @return: string
-  generateDate() {
-    const currentDate = new Date();
-    return currentDate.toISOString();
+  // Mengembalikan nilai "disabled" jika dalam mode view
+  // @return: String
+  checkDisabled() {
+    if (this._mode === "view") return "disabled";
   }
 
   // Menambah note baru ke note-list
   addNote() {
     const newNote = {
-      id: this.generateNoteId(),
-      title: this.querySelector("#body-input").value,
+      title: this.querySelector("#title-input").value,
       body: this.querySelector("#body-input").value,
-      createdAt: this.generateDate(),
-      archived: false,
     };
 
-    document.querySelector("note-list").addNoteList(newNote);
+    document.querySelector("note-list").addNote(newNote);
   }
 
-  // Mengganti nilai note-item ke note-list
-  editNote() {
-    const noteList = document.querySelector("note-list");
-    const notes = noteList.getNoteList();
-
-    const newNotes = notes.map((note) => {
-      if (note.id === this._noteData.id) {
-        note.title = this.querySelector("#title-input").value;
-        note.body = this.querySelector("#body-input").value;
-      }
-      return note;
-    });
-
-    noteList.setNoteList(newNotes);
-  }
-
-  // Menetapkan nilai _noteData
-  // @params: string
-  setNoteData(id) {
-    const noteList = document.querySelector("note-list");
-    const notes = noteList.getNoteList();
-
-    this._noteData = notes.find((note) => note.id === id);
+  // Menentukan nilai noteData
+  setNoteData(note) {
+    this._noteData = note;
   }
 
   // Membersihkan nilai _noteData
@@ -190,14 +162,7 @@ class NoteForm extends HTMLElement {
     // Merespon submit
     this.addElementEvent("note-form form", "submit", (e) => {
       e.preventDefault();
-      if (this._mode === "add") {
-        this.addNote();
-      } else if (this._mode === "edit") {
-        this.editNote();
-      } else {
-        console.log("Error submit");
-      }
-
+      this.addNote();
       this.clearNoteData();
       this.hideForm();
     });

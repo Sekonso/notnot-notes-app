@@ -1,14 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Link -->
-    <link rel="stylesheet" href="./src/styles/main.css" />
-    <link rel="stylesheet" href="./src/styles/notes.css" />
-    <link rel="icon" href="./src/assets/favicon.ico" type="image/x-icon" />
+    <!-- Icon link -->
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
 
     <title>Notes App</title>
   </head>
@@ -16,14 +14,32 @@
     <header>
       <nav class="navbar">
         <h1>Notnot</h1>
-        <p>What's on your mind?</p>
+        <p>What's on your mind ?</p>
       </nav>
     </header>
 
     <main>
-      <button class="form-toggler">+ Add note</button>
+      <div class="main-buttons">
+        <button class="form-toggler">+ Add note</button>
+        <select name="notes-type-selector" id="notes-type-selector">
+          <option value="non-archived">Non-archived</option>
+          <option value="archived">Archived</option>
+        </select>
+      </div>
       <note-form></note-form>
-      <note-list> </note-list>
+      <note-list type="non-archived"> </note-list>
+
+      <!-- <div class="confirm-container">
+        <div class="confirm-dialogue">
+          <h1 class="confirm-message">Apakah kamu yakin</h1>
+          <div class="confirm-buttons-container">
+            <button class="confirm-yes">Yes</button>
+            <button class="confirm-no">No</button>
+          </div>
+        </div>
+      </div> -->
+
+      <confirm-dialogue></confirm-dialogue>
     </main>
 
     <footer>
@@ -34,13 +50,7 @@
       </p>
     </footer>
 
-    <!-- Script -->
-    <script type="module" src="./src/scripts/app.js"></script>
-
     <!-- Fontawesome kit -->
-    <script
-      src="https://kit.fontawesome.com/4d69af1ea6.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/4d69af1ea6.js" crossorigin="anonymous"></script>
   </body>
 </html>
