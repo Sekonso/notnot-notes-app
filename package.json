@@ -1,7 +1,7 @@
 {
   "name": "notnot-notes-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Aplikasi catatan dengan integrasi fetch API dan webpack",
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.prod.js",
@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Adriansyah",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.24.0",
