@@ -1,7 +1,7 @@
 
 # Notnot notes page
 
-Notnot notes app merupakan projek pembuatan single web page mengenai aplikasi pencatatan. Proyek ini adalah tugas submission kelas “Membuat front-end web untuk pemula” pada Dicoding.
+Notnot notes app merupakan projek pembuatan single web page mengenai aplikasi pencatatan. Proyek ini adalah tugas submission kelas “Fundamental front-end web development” pada Dicoding.
 
 Proyek dikerjakan dengan tools:
 - HTML
